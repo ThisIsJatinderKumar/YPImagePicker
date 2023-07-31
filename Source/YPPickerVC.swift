@@ -12,7 +12,7 @@ import Photos
 
 protocol YPPickerVCDelegate: AnyObject {
     func libraryHasNoItems()
-    func shouldAddToSelection(indexPath: IndexPath, numSelections: Int) -> Bool
+    func shouldAddToSelection(indexPath: IndexPath, numSelections: Int,asset:PHAsset?) -> Bool
 }
 
 open class YPPickerVC: YPBottomPager, YPBottomPagerDelegate {
@@ -381,7 +381,7 @@ extension YPPickerVC: YPLibraryViewDelegate {
         pickerVCDelegate?.libraryHasNoItems()
     }
     
-    public func libraryViewShouldAddToSelection(indexPath: IndexPath, numSelections: Int) -> Bool {
-        return pickerVCDelegate?.shouldAddToSelection(indexPath: indexPath, numSelections: numSelections) ?? true
+    public func libraryViewShouldAddToSelection(indexPath: IndexPath, numSelections: Int,asset:PHAsset?) -> Bool {
+        return pickerVCDelegate?.shouldAddToSelection(indexPath: indexPath, numSelections: numSelections, asset: asset) ?? true
     }
 }

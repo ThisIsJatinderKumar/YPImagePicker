@@ -7,6 +7,7 @@
 //
 
 import UIKit
+import Photos
 
 extension YPLibraryVC {
     var isLimitExceeded: Bool { return selectedItems.count >= YPConfig.library.maxNumberOfItems }
@@ -78,9 +79,9 @@ extension YPLibraryVC {
     }
     
     /// Adds cell to selection
-    func addToSelection(indexPath: IndexPath) {
+    func addToSelection(indexPath: IndexPath,asset:PHAsset?) {
         if !(delegate?.libraryViewShouldAddToSelection(indexPath: indexPath,
-                                                       numSelections: selectedItems.count) ?? true) {
+                                                       numSelections: selectedItems.count, asset: asset) ?? true) {
             return
         }
         guard let asset = mediaManager.getAsset(at: indexPath.item) else {
@@ -185,13 +186,13 @@ extension YPLibraryVC: UICollectionViewDelegate {
                     deselect(indexPath: indexPath)
                 }
             } else if isLimitExceeded == false {
-                addToSelection(indexPath: indexPath)
+                addToSelection(indexPath: indexPath, asset: mediaManager.getAsset(at: indexPath.row))
             }
             collectionView.reloadItems(at: [indexPath])
             collectionView.reloadItems(at: [previouslySelectedIndexPath])
         } else {
             selectedItems.removeAll()
-            addToSelection(indexPath: indexPath)
+            addToSelection(indexPath: indexPath, asset: mediaManager.getAsset(at: indexPath.row))
             
             // Force deseletion of previously selected cell.
             // In the case where the previous cell was loaded from iCloud, a new image was fetched

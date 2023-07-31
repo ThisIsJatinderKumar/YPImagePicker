@@ -278,7 +278,10 @@ extension ExampleViewController: YPImagePickerDelegate {
         // PHPhotoLibrary.shared().presentLimitedLibraryPicker(from: self)
     }
 
-    func shouldAddToSelection(indexPath: IndexPath, numSelections: Int) -> Bool {
+    func shouldAddToSelection(indexPath: IndexPath, numSelections: Int,asset:PHAsset?) -> Bool {
         return true // indexPath.row != 2
     }
+    
+    
+
 }

@@ -189,7 +189,7 @@ internal final class YPLibraryVC: UIViewController, YPPermissionCheckable {
 
         if isMultipleSelectionEnabled {
             let needPreselectItemsAndNotSelectedAnyYet = selectedItems.isEmpty && YPConfig.library.preSelectItemOnMultipleSelection
-            let shouldSelectByDelegate = delegate?.libraryViewShouldAddToSelection(indexPath: IndexPath(row: currentlySelectedIndex, section: 0), numSelections: selectedItems.count) ?? true
+            let shouldSelectByDelegate = delegate?.libraryViewShouldAddToSelection(indexPath: IndexPath(row: currentlySelectedIndex, section: 0), numSelections: selectedItems.count, asset: mediaManager.getAsset(at: currentlySelectedIndex)) ?? true
             if needPreselectItemsAndNotSelectedAnyYet,
                shouldSelectByDelegate,
                let asset = mediaManager.getAsset(at: currentlySelectedIndex) {
@@ -203,7 +203,7 @@ internal final class YPLibraryVC: UIViewController, YPPermissionCheckable {
             }
         } else {
             selectedItems.removeAll()
-            addToSelection(indexPath: IndexPath(row: currentlySelectedIndex, section: 0))
+            addToSelection(indexPath: IndexPath(row: currentlySelectedIndex, section: 0), asset: mediaManager.getAsset(at: currentlySelectedIndex))
         }
         
         v.assetViewContainer.setMultipleSelectionMode(on: isMultipleSelectionEnabled)
@@ -245,7 +245,7 @@ internal final class YPLibraryVC: UIViewController, YPPermissionCheckable {
                                         animated: false,
                                         scrollPosition: UICollectionView.ScrollPosition())
             if !isMultipleSelectionEnabled && YPConfig.library.preSelectItemOnMultipleSelection {
-                addToSelection(indexPath: IndexPath(row: 0, section: 0))
+                addToSelection(indexPath: IndexPath(row: 0, section: 0), asset: firstAsset)
             }
         } else {
             delegate?.libraryViewHaveNoItems()
